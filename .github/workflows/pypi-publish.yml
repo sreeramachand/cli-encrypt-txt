@@ -1,0 +1,39 @@
+name: 🚀 Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers when you push a version tag
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    name: Build and publish to PyPI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.0'
+
+      - name: 🔧 Install build tool
+        run: |
+          python -m pip install --upgrade build twine
+
+      - name: 📦 Build package
+        run: |
+          python -m build
+
+      - name: 🚀 Publish to PyPI
+        run: |
+          python -m pip install twine
+          twine upload dist/* \
+          --username __token__ \
+          --password ${{ secrets.PYPI_API_TOKEN }}
+       

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cli-encrypt-txt"
+version = "0.1.0"
+description = "AES-256 CLI tool for encrypting and decrypting files"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "Adityakrishna SreeRamachandrarao", email = "adityadronamraju20@gmail.com" }
+]
+dependencies = [
+    "cryptography>=42.0.0"
+]
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "https://github.com/sreeramachand/cryptotool"
+
+[project.scripts]
+cli-encrypt-txt = "cli_encrypt_txt.__main__:main"
