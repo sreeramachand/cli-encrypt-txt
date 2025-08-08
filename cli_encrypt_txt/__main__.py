@@ -1,6 +1,7 @@
 def main():
     import argparse, os, getpass
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+    from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     from cryptography.hazmat.backends import default_backend
@@ -9,12 +10,22 @@ def main():
     from cryptography.fernet import Fernet, InvalidToken
     from cryptography.exceptions import InvalidTag
 
-    def derive_key(password: str, salt: bytes) -> bytes:
+    '''def derive_key(password: str, salt: bytes) -> bytes:
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt,
             iterations=100_000,
+            backend=default_backend()
+        )
+        return kdf.derive(password.encode())'''
+    def derive_key(password: str, salt: bytes) -> bytes:
+        kdf = Scrypt(
+            salt=salt,
+            length=32,
+            n=2**16,  # CPU/memory cost (e.g., 2^15 = 32,768)
+            r=8,
+            p=1,
             backend=default_backend()
         )
         return kdf.derive(password.encode())
