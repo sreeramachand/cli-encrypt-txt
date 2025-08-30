@@ -1,23 +1,26 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cli-encrypt-txt"
-version = "2.1.0"
-description = "AES-256 CLI tool for encrypting and decrypting .txt files"
-readme = "README.md"
-license = {text = "MIT"}
+version = "3.1.0"
+description = "Hyper-secure Quantum-Ready CLI file encryptor: AES-256-GCM + Argon2id with opaque steganographic headers"
 authors = [
-    { name = "Adityakrishna SreeRamachandrarao", email = "adityadronamraju20@gmail.com" }
+  { name="Adityakrishna LDK SreeRamachandrarao", email="adityadronamraju20@gmail.com"}
 ]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.9"
+
 dependencies = [
-    "cryptography>=42.0.0"
+  "cryptography>=42.0.0",
+  "argon2-cffi>=23.1.0"
 ]
-requires-python = ">=3.6"
 
 [project.urls]
 Homepage = "https://github.com/sreeramachand/cli-encrypt-txt"
+Source = "https://github.com/sreeramachand/cli-encrypt-txt"
 
 [project.scripts]
 cli-encrypt-txt = "cli_encrypt_txt.__main__:main"

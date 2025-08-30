@@ -1,79 +1,74 @@
-# 🔐 cli-encrypt-txt
-
-A simple and secure CLI tool to **encrypt** and **decrypt** text files with a password. Ideal for protecting sensitive information, storing credentials, or creating your own minimal password manager.
+# cli-encrypt-txt — Quantum-ready File Encryption
 
 ---
 
-## ✨ Features
+A minimal CLI to encrypt/decrypt files with:
 
-- 🔐 Encrypt text files into `.enc` format using a password
-- 🔓 Decrypt `.enc` files with up to **3 password attempts**
-- 📦 Lightweight & easy to use
-- 🧠 Great for storing private notes or credentials securely
+- **AES-256-GCM** for confidentiality + integrity
+- **Password mode** using **Argon2id** (memory-hard, replaces PBKDF2)
+- **Opaque/steganographic headers** to thwart foreign decryption scripts
+- **Memory, Iteration, and Parallelism** modification support for hardware customization
+
+> AES-256 remains safe vs. Grover’s algorithm. 
 
 ---
 
-## 🚀 Installation
+## Purpose
 
+The goal is to ensure security of personal data on cloud platforms instead of a dedicated password manager. This allows those who do not wish to depend on others for their security to take it into their own hands. Additionally, once the file is encrypted, it can be saved on the cloud. Decryption even with Quantum Technology should not be possible, even with people who can access this software and inspect the code. Your data will always be safe and secured even when saved insecurely (email, google drive/OneDrive, dropbox). Additionally, those with powerful processors can make those with limited powerful compute access from being able to decrypt the file, since this is stored in the headers. Furthermore, headers are opaque to further complicate decryption. 
+
+---
+
+## Install
+
+Python 3.9+ recommended.
+
+**Password mode only**
 ```bash
-pip install cli-encrypt-txt
+pip install -U cryptography argon2-cffi
+
+# Encrypt
+cli-encrypt-txt encrypt secret.pdf -p "strong pass" \
+  --m-kib 524288 --t-cost 3 --parallelism 4
+
+# Decrypt
+cli-encrypt-txt decrypt secret.pdf.enc
+
+# Encrypt with extreme Argon2id settings into a JPEG cover:
+python -m cli_encrypt_txt encrypt secret.txt \
+  --m-kib 1048576 \
+  --t-cost 6 \
+  --parallelism 8 \
+  --cover cover.jpg
+# -> outputs: secret.txt.enc.jpg
+
+# Decrypt (prompts for password; writes secret.txt.enc.dec or strips .enc if present):
+python -m cli_encrypt_txt decrypt secret.txt.enc.jpg
 ```
 
----
+> No need to keep file name or file extension consistent after encryption. This adds to the security!! The only thing that must be consistent is the password which will be prompted. 
 
-## 🧑‍💻 Usage
 
-### 🔐 Encrypt a file
+## Links
 
-```bash
-cli-encrypt-txt encrypt test.txt
-```
+Please view the project at PyPI: https://pypi.org/project/cli-encrypt-txt/
 
-- You'll be prompted to enter a password.
-- Output: `test.txt.enc`
 
-### 🔓 Decrypt a file
+## Table
 
-```bash
-cli-encrypt-txt decrypt test.txt.enc
-```
+| Customizations  | Purpose |
+| ------------- |:-------------:|
+|  `-m-kib`      | Sets the memory cost in KiB (used in Argon2id hashing). Higher values increase resistance to brute-force attacks but require more RAM.     |
+| `--t-cost`      | Sets the time cost (number of iterations) in Argon2id. More iterations = slower password hashing = harder for attackers.     |
+| `--parallelism`      | Number of threads/lanes to use in Argon2id. Improves performance on multicore CPUs while maintaining security.     |
+| `--cover`      | Enables steganographic mode, hiding encrypted text inside a cover file (like an image) so the ciphertext doesn’t look suspicious.      |
 
-- Enter the same password to decrypt.
-- You have **3 attempts** to get it right.
-- Output: `test.txt`
 
----
+# Acknowledgements
 
-## 💡 Use Case
+Thank you to the users!!! I really hope this tool can help improve your system's security and keep unwanted nosy actors out of your personal data! If this project helped please share the repository and let me know what you think! Cheers!
 
-Use `cli-encrypt-txt` as a **local password manager** or secret storage system. Simply encrypt a `.txt` file containing your credentials, secrets, or notes, and store the `.enc` file safely. Only those with the password can decrypt it.
-
----
-
-## 🔧 Example
-
-```bash
-$ cli-encrypt-txt encrypt secrets.txt
-Enter password: ******
-Successfully encrypted to: secrets.txt.enc
-
-$ cli-encrypt-txt decrypt secrets.txt.enc
-Enter password: ******
-Decryption successful! File saved as: secrets.txt
-```
-
----
-
-## 🛠️ Developer Notes
-
-- Requires Python 3.7+
-- Designed with simplicity and file-level encryption in mind
-- No external dependencies (pure Python, unless otherwise noted)
-
----
-
-## 📝 License
-
+# License
 MIT License © 2025 Adityakrishna SreeRamachandrarao
 
----
+
