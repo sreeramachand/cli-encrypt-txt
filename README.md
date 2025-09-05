@@ -25,7 +25,10 @@ Python 3.9+ recommended.
 
 **Password mode only**
 ```bash
-pip install -U cryptography argon2-cffi
+#Windows
+python -m venv .venv
+.venv/scripts/activate 
+pip install cli-encrypt-txt==3.1.0
 
 # Encrypt
 cli-encrypt-txt encrypt secret.pdf -p "strong pass" \
@@ -58,7 +61,7 @@ Please view the project at PyPI: https://pypi.org/project/cli-encrypt-txt/
 
 | Customizations  | Purpose |
 | ------------- |:-------------:|
-|  `-m-kib`      | Sets the memory cost in KiB (used in Argon2id hashing). Higher values increase resistance to brute-force attacks but require more RAM.     |
+|  `--m-kib`      | Sets the memory cost in KiB (used in Argon2id hashing). Higher values increase resistance to brute-force attacks but require more RAM.     |
 | `--t-cost`      | Sets the time cost (number of iterations) in Argon2id. More iterations = slower password hashing = harder for attackers.     |
 | `--parallelism`      | Number of threads/lanes to use in Argon2id. Improves performance on multicore CPUs while maintaining security.     |
 | `--cover`      | Enables steganographic mode, hiding encrypted text inside a cover file (like an image) so the ciphertext doesn’t look suspicious.      |
