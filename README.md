@@ -28,7 +28,7 @@ Python 3.9+ recommended.
 #Windows
 python -m venv .venv
 .venv/scripts/activate 
-pip install cli-encrypt-txt==3.1.0
+pip install cli-encrypt-txt==3.2.0
 
 # Encrypt
 cli-encrypt-txt encrypt secret.pdf -p "strong pass" \
